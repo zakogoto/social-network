@@ -1,0 +1,68 @@
+.header {
+    grid-area: h;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    background: #8c8c8c;
+    padding: 0 20px;
+}
+
+.header img {
+    height: 60px;
+}
+  
+.links {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.links a {
+    color: #fff;
+    padding: 10px 15px;
+}
+
+.active {
+    background: #3774cb;
+}
+
+.loginBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.infoBlock {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.infoBlock img {
+    height: 40px;
+    border-radius: 100%;
+}
+
+.loginBtn {
+    float: right;
+    margin: 10px;
+    padding: 10px;
+    background: #3774cb;
+    color: #fff;
+}
+
+.logoutBtn {
+    float: right;
+    margin: 10px;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: #000;
+    cursor: pointer;
+}
+
+.login {
+    color: #fff;
+}

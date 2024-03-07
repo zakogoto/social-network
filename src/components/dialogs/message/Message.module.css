@@ -1,0 +1,31 @@
+.wrap, .wrapRight {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    /* background: #fff; */
+    /* padding: 15px; */
+    /* border-radius: 20px; */
+}
+.wrapRight {
+    justify-content: flex-end;
+}
+
+.wrap img, .wrapRight img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+}
+
+.message {
+    background: rgb(29, 194, 142);
+    padding: 15px;
+    max-width: 60%;
+    border-radius: 20px;
+    white-space: pre-wrap;
+}
+
+p, h3 {
+    word-wrap: break-word;
+    color: #eaeaea;
+}
