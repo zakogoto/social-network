@@ -14,26 +14,14 @@ export const usersAPI = {
         return response.data;
     },
 
-    followUser (id) {
-        try {
-            const response = instance.post(`follow/${id}`);
-            if (response.data.resultCode === 0) {
-                return
-            }
-        } catch (e) {
-            console.log(e.message);
-        } 
+    async followUser (id) {
+        const response = await instance.post(`follow/${id}`);
+        return response;
     },
 
-    unfollowUser (id) {
-        try {
-            const response = instance.delete(`follow/${id}`);
-            if (response.data.resultCode === 0) {
-                return
-            }
-        } catch (e) {
-            console.log(e.message);
-        } 
+    async unfollowUser (id) {
+        const response = await instance.delete(`follow/${id}`);
+        return response;
     },
     
 }

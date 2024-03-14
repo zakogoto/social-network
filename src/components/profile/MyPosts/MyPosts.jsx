@@ -19,11 +19,10 @@ const PostForm = (props) => {
 const PostReduxForm = reduxForm({form: 'post'}) (PostForm)
 
 export default function MyPosts(props) {
-  
   const onSubmit = (postData) => {
     props.addNewPost(postData.newPost)
   }
-  const posts = props.postsData.map((p, i) => <Post post={p.post} name={p.name} imgSrc={p.imgSrc} key={i}/>)
+  const posts = props.postsData.map((p, i) => <Post post={p.message} name={p.name} imgSrc={p.imgSrc} key={i}/>)
 
   return (
     <div className={s.wrap}>

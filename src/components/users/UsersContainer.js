@@ -1,40 +1,33 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
+import { compose } from 'redux';
 import { connect } from "react-redux";
 import { 
     followUser, 
     unfollowUser,
-    setCurrentPage, 
-    setTotalUsersCount, 
+    setCurrentPage,
     setUsers, 
     toggleIsFetching,
     toggleIsFollowing,
-    getUsers } from "../../redux/reducers/usersReducer";
-
+    requestUsers } from "../../redux/reducers/usersReducer";
 import Users from './Users'
+import { getCurrentPage, getFollowingProgress, getIsFetching, getPageSize, getPortionSize, getTotalUserCount, getUsers } from '../../redux/selectors/userSelector';
 
-
-class UsersContainer extends Component {
-
-    componentDidMount () {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize)
-    }
+const  UsersContainer = (props) => {
     
-    onFollow = (id) => {
-        this.props.followUser(id)
-    }
+    let {users, currentPage, totalUsersCount, 
+        pageSize, followingInProgress, isFetching, 
+        requestUsers, setCurrentPage, unfollowUser, followUser, portionSize} = props
 
-    onUnfollow = (id) => {
-        this.props.unfollowUser(id)
-    }
+    useEffect(() => {
+        requestUsers(currentPage, pageSize)
+        // eslint-disable-next-line
+    }, [currentPage])
     
-    onPageChanged = (currentPage) => {
-        this.props.setCurrentPage(currentPage)
-        this.props.getUsers(currentPage, this.props.pageSize)
+    const onPageChanged = (currentPage) => {
+        setCurrentPage(currentPage)
+        requestUsers(currentPage, pageSize)
     }
 
-  render() {
-
-    const {users, currentPage, totalUsersCount, pageSize, followingInProgress, isFetching} = this.props
 
     return (
         <Users
@@ -43,35 +36,36 @@ class UsersContainer extends Component {
             isFetching={isFetching}
             totalUsersCount={totalUsersCount}
             pageSize={pageSize}
+            portionSize={portionSize}
             followingInProgress={followingInProgress}
-            onPageChanged={this.onPageChanged}
-            onFollow={this.onFollow}
-            onUnfollow={this.onUnfollow}
+            onPageChanged={onPageChanged}
+            onFollow={followUser}
+            onUnfollow={unfollowUser}
         />
     )
-  }
 }
 
 const MapStateToProps = (state) => {
     return {
-        users: state.usersPage.users,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        pageSize: state.usersPage.pageSize,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        totalUsersCount: getTotalUserCount(state),
+        pageSize: getPageSize(state),
+        portionSize: getPortionSize(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingProgress(state)
     }
 }
 
-export default connect(MapStateToProps, {
-    followUser, 
-    unfollowUser,
-    setCurrentPage, 
-    setTotalUsersCount, 
-    setUsers, 
-    toggleIsFetching, 
-    toggleIsFollowing,
-    getUsers
-
-}) (UsersContainer)
+export default compose(
+    connect(MapStateToProps, {
+        followUser, 
+        unfollowUser,
+        setCurrentPage,
+        setUsers, 
+        toggleIsFetching, 
+        toggleIsFollowing,
+        requestUsers
+    })
+) (UsersContainer)
 

@@ -1,65 +1,25 @@
-import s from './Users.module.css'
-
+import style from './Users.module.css'
 import React from 'react'
-import userPhoto from '../../assets/image/userPhoto.png'
 import Preloader from '../../ui/Preloader';
-import { NavLink } from 'react-router-dom';
-export default function Users(props) {
-    
-    const pagesCount  = Math.ceil(props.totalUsersCount / props.pageSize);
-    
-    const pages = [];
-    
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
-    }
+import Pagination from '../../ui/pagination/Pagination';
+import User from './User';
 
-    const user = props.users.map(u => 
-        <div className={s.user} key={u.id}>
-            <div className={s.userPreview}>
-                {/* <NavLink to={`/profile/${u.id}`}> */}
-                <NavLink to={`/profile/${u.id}`} >
-                    <img src={u.imgURL ? u.imgURL : userPhoto} alt={u.name} />
-                </NavLink>
-                {u.followed ? 
-                    <button 
-                        disabled={props.followingInProgress.some(id => id === u.id)} 
-                        onClick={() => props.onUnfollow(u.id)} className={`${s.btn} ${s.followed}`}
-                    >
-                        UNFOLLOW
-                    </button> 
-                    : 
-                    <button 
-                        disabled={props.followingInProgress.some(id => id === u.id)} 
-                        onClick={()=> props.onFollow(u.id)} className={s.btn}
-                    >
-                        FOLLOW
-                    </button>
-                }
-            </div>
-            <div className={s.userInfo}>
-                <span>
-                    <div>{u.name}</div>
-                    <div>{u.status ? u.status : 'no status'}</div>
-                </span>
-                <span>
-                    {/* <div>{u.location.city ? u.location.city : 'no info'}</div> */}
-                    {/* <div>{u.location.country ? u.location.country : 'no info'}</div> */}
-                </span>
-            </div>
-        </div>
-    )
+export default function Users(props) {
+
+    const {totalUsersCount, pageSize, users, 
+        isFetching, onPageChanged, currentPage, 
+        onUnfollow, onFollow, followingInProgress, portionSize} = props;
 
     return (
-        <div className={s.wrap}>
-            {props.isFetching ? <Preloader/> : user}
-            
+        <div className={style.wrap}>
+            {isFetching ? 
+                <Preloader/> 
+                : users.map(u => 
+                    <User followingInProgress={followingInProgress} onUnfollow={onUnfollow} onFollow={onFollow} user={u} key={u.id} /> 
+                )
+            }
             <span>
-                {pages.map(page => {
-                    return <button 
-                    className={props.currentPage === page ? s.currentPage : ''}
-                    onClick={() => props.onPageChanged(page)}>{page}</button>
-                })}
+                <Pagination portionSize={portionSize} pageSize={pageSize} totalItemsCount={totalUsersCount} onPageChanged={onPageChanged} currentPage={currentPage}/>
             </span>
         </div>
     )

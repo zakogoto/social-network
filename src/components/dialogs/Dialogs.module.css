@@ -33,6 +33,7 @@
 .messagesArea {
     height: 60vh;
     overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .newMessage {

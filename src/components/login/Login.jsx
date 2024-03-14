@@ -1,6 +1,6 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { Input } from '../../ui/validation/FormsControl'
+import { reduxForm } from 'redux-form'
+import { Input, createField } from '../../ui/validation/FormsControl'
 import { maxLengthCreator, minLengthCreator, required } from '../../ui/validation/validators'
 import { connect } from 'react-redux'
 import { login } from '../../redux/reducers/authReducer'
@@ -17,23 +17,16 @@ const lengthLimits = {
   },
 }
 
-const LoginForm = (props) => {
+const LoginForm = ({handleSubmit, error}) => {
   return (
-    <form onSubmit={props.handleSubmit}>
-        <div>
-          <Field component={Input} type="input" placeholder='login' name='email' validate={[required, lengthLimits.login.min, lengthLimits.login.max]} />
-        </div>
-        <div>
-          <Field component={Input} type="password" placeholder='password' name='password' validate={[required, lengthLimits.password.min, lengthLimits.password.max]} />
-        </div>
-        <div>
-          <Field component={Input} type="checkbox" name='rememberMe'/> 
-          <span>remember me</span>
-        </div>
-        {props.error && <div className={styles.errorMessage}>{props.error}</div>}
-        <div>
-          <button>Login</button>
-        </div>
+    <form onSubmit={handleSubmit}>
+      {createField(Input, 'email', 'login', 'email', [required, lengthLimits.login.min, lengthLimits.login.max])}
+      {createField(Input, 'password', 'password', 'password', [required, lengthLimits.password.min, lengthLimits.password.max])}
+      {createField(Input, 'checkbox', '', 'rememberMe', [], 'Remember Me')}
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      <div>
+        <button>Login</button>
+      </div>
     </form>
   )
 }
@@ -41,14 +34,14 @@ const LoginForm = (props) => {
 const LoginReduxForm = reduxForm({form: 'login'}) (LoginForm)
 
 
-const Login = (props) => {
+const Login = ({login, isAuth}) => {
   
   const onSubmit = (formData) => {
     const {email, password, rememberMe} = formData;
-    props.login(email, password, rememberMe)
+    login(email, password, rememberMe)
   }
 
-  if (props.isAuth) {
+  if (isAuth) {
     return <Navigate to={'/profile'} />
   }
 

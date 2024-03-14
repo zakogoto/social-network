@@ -5,10 +5,11 @@ import ProfileInfo from './profileInfo/ProfileInfo'
 // import s from './Content.module.css'
 
 export default function Profile(props) {
-  // debugger
+  const {isFetching, profileInfo, status, updateUserStatus} = props
+  
   return (
     <div>
-      <ProfileInfo isFetching={props.isFetching} profileInfo={props.profileInfo} status={props.status} updateUserStatus={props.updateUserStatus}/>
+      <ProfileInfo isFetching={isFetching} profileInfo={profileInfo} status={status} updateUserStatus={updateUserStatus}/>
       <MyPostsContainer/>
     </div>
   )

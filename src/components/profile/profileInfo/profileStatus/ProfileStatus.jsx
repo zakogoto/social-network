@@ -1,55 +1,33 @@
 // eslint-disable-next-line
-import React, { Component } from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { required } from '../../../../ui/validation/validators'
+import React, { useEffect, useState } from 'react'
 
-const StatusForm = (props) => {
-    return (
-        <form onSubmit={props.handleSubmit} validate >
-            <Field component={'input'} name='status' value={props.defaultValue} validate={[required]} />
-        </form>
-    )
-}
+export default function ProfileStatus({status, updateUserStatus}) {
+    let [editMode, setEditMode] = useState(false)
+    let [currentStatus, setCurrentStatus] = useState(status)
 
-const StatusReduxForm = reduxForm ({form: 'status'}) (StatusForm)
+    useEffect(()=> {
+        setCurrentStatus(status)
+    }, [status])
 
-export default class ProfileStatus extends Component {
-    state = {
-        editMode: false,
-        status: this.props.status
+    const activateEditMode = () => {
+        setEditMode(true)
+    }
+    const deactivateEditMode = () => {
+        setEditMode(false)
+        updateUserStatus(currentStatus)
     }
 
-    activateEditMode = () => {
-        this.setState({editMode: true})
+    const onStatusChange = (e) => {
+        setCurrentStatus(e.currentTarget.value)
     }
-    deactivateEditMode = () => {
-        this.setState({editMode: false})
-        this.props.updateUserStatus(this.state.status)
-    }
-
-    onStatusChange = (e) => {
-        this.setState({status: e.currentTarget.value})
-    }
-
-    componentDidUpdate(prevProps) {
-        if(prevProps.status !== this.props.status) {
-            this.setState({status: this.props.status})
-        }
-    }
-
-    onSubmit = ({status}) => {
-        this.props.updateUserStatus(status)
-    }
-
-  render() {
     return (
         <div>
-            {!this.state.editMode
-                ? <div onDoubleClick={this.activateEditMode}>{this.props.status ? this.props.status : 'no status'}</div>
-                // : <input onChange={this.onStatusChange} autoFocus onBlur={this.deactivateEditMode} defaultValue={this.state.status}/>
-                : <StatusReduxForm onSubmit={this.onSubmit} defaultValue={this.state.status}/>
+            {!editMode
+                ? <span onDoubleClick={activateEditMode}>{status ? status : 'no status'}</span>
+                : <input onChange={onStatusChange} autoFocus onBlur={deactivateEditMode} defaultValue={currentStatus}/>
+                // : <StatusReduxForm onSubmit={onSubmit} defaultValue={status} onBlur={deactivateEditMode}/>
             }
         </div>
     )
-  }
 }
+

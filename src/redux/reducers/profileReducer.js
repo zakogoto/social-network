@@ -14,7 +14,7 @@ export default function profileReducer(state = initialState, action) {
       return {
         ...state,
         postsData: [
-          {name: 'you', post: action.newPost, imgSrc: 'https://animego.org/media/cache/thumbs_60x60/upload/avatar/652797ce3668d760496455.jpeg'},
+          {id: state.postsData.length, name: 'you', message: action.newPost, imgSrc: 'https://animego.org/media/cache/thumbs_60x60/upload/avatar/652797ce3668d760496455.jpeg'},
           ...state.postsData
         ],
       }
@@ -35,6 +35,10 @@ export default function profileReducer(state = initialState, action) {
       return {
         ...state, postsData: [], id: null, status: null, profileInfo: null
       }
+    case DELETE_POST:
+      return {
+        ...state, postsData: state.postsData.filter(p => p.id !== action.postId)
+      }
     default:
       return state
   }
@@ -46,12 +50,20 @@ const GET_PROFILE_INFO = 'GET_PROFILE_INFO'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 const GET_STATUS = 'GET_STATUS'
 const RESET_PROFILE_INFO = 'RESET_PROFILE_INFO'
+const DELETE_POST = 'DELETE_POST'
 
 export const addNewPost = (newPost) => {
     return {
       type: ADD_NEW_POST,
       newPost
     }
+}
+
+export const deletePost = (postId) => {
+  return {
+    type: DELETE_POST,
+    postId
+  }
 }
   
 export const getPosts = (posts) => {
@@ -107,7 +119,6 @@ export const getUserStatus = (userId) => (dispatch) => {
 export const updateUserStatus = (status) => (dispatch) => {
   profileAPI.updateProfileStatus(status).then(response => {
     if (response.data.resultCode === 0 ) {
-      debugger
       dispatch(getStatus(status))
     }
   }).catch(e => {

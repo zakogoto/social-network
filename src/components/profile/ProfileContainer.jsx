@@ -1,49 +1,46 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import Profile from "./Profile"
 import { getPosts, getUserProfile, getUserStatus, updateUserStatus, resetUserProfile } from '../../redux/reducers/profileReducer'
 import withRouter from '../../hooks/withRouter'
 import { withAuthForComponentWrapper } from '../../hoc/authRedirect'
 import { compose } from 'redux'
+import { getIsFetching, getNewPostData, getProfileId, getProfileStatus, getUserPosts, getUserProfileInfo } from '../../redux/selectors/profileSelector'
+import { getAuthUserId } from '../../redux/selectors/authSelector'
 
 
-class ProfileContainer extends Component {
+const ProfileContainer = (props) => {
 
-  componentDidMount = () => {
-    this.getProfile()
-  }
+  const {router, authId, profileInfo, updateUserStatus, 
+    status, getUserStatus, getUserProfile} = props
 
-  componentDidUpdate =(prevProps) => {
-    if(this.props.router.params.id !== prevProps.router.params.id ) {
-      this.getProfile()
-    }
-  }
-
-  getProfile = () => {
-    let userId = this.props.router.params.id
+  const getProfile = () => {
+    let userId = router.params.id
     if (!userId) {
-      userId = this.props.authId
+      userId = authId
     }
-    this.props.getUserProfile(userId)
-    this.props.getUserStatus(userId)
+    getUserProfile(userId)
+    getUserStatus(userId)
   }
+  
+  useEffect(() => {
+    getProfile()
+  }, [router.params.id])
 
-  render() {
-    return (
-      <Profile {...this.props} profileInfo={this.props.profileInfo} updateUserStatus={this.props.updateUserStatus} status={this.props.status}/>
-    )
-  }
+  return (
+    <Profile {...props} profileInfo={profileInfo} updateUserStatus={updateUserStatus} status={status}/>
+  )
 }
 
 const MapStateToProps = (state) => {
   return {
-    postsData: state.profilePage.postsData,
-    newPost: state.profilePage.newPost,
-    id: state.profilePage.id,
-    authId: state.auth.id,
-    status: state.profilePage.status,
-    profileInfo: state.profilePage.profileInfo,
-    isFetching: state.profilePage.isFetching,
+    postsData: getUserPosts(state),
+    newPost: getNewPostData(state),
+    id: getProfileId(state),
+    authId: getAuthUserId(state),
+    status: getProfileStatus(state),
+    profileInfo: getUserProfileInfo(state),
+    isFetching: getIsFetching(state),
   }
 }
 
