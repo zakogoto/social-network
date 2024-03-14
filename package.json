@@ -2,6 +2,7 @@
   "name": "react-app-01",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://social-network-5ryys930s-zakogoto.vercel.app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
