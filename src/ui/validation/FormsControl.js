@@ -17,9 +17,9 @@ const Element = (Element) => ({input, meta, ...props}) => {
 export const Input = Element('input') 
 export const Textarea = Element('textarea') 
 
-export const createField = (component, type, placeholder, name, validators, text='') => {
+export const createField = (component, type, placeholder, name, validators, text=null) => {
     return ( 
-        <div>
+        <div className={styles.inputWrap} key={name}>
             <Field component={component} type={type} placeholder={placeholder} name={name} validate={validators} />
             <span>
                 {text}

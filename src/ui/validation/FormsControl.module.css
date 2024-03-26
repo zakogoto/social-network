@@ -8,3 +8,7 @@
 .errorMessage {
     color: red !important; 
 }
+
+.inputWrap {
+    display: flex;
+}

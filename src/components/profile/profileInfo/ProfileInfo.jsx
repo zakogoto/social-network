@@ -1,40 +1,57 @@
-import React from 'react'
+import React, { useState } from 'react'
+import style from './ProfileInfo.module.css'
 
 import defaultPhoto from "../../../assets/image/userPhoto.png"
 import Preloader from '../../../ui/Preloader'
-
-import style from './ProfileInfo.module.css'
 import ProfileStatus from './profileStatus/ProfileStatus'
+
+import ProfileData from './ProfileData'
+import { ProfileReduxForm } from './ProfileFormData'
+
 
 export default function ProfileInfo(props) {
 
-    const  {profileInfo, status, updateUserStatus, id, isFetching} = props
-    if (!profileInfo) {
-        
-        return <Preloader/>
+    const  {profileInfo, status, updateUserStatus, id, isFetching, isOwner, savePhoto, updateProfileInfo, getUserProfile} = props;
+
+    let [editMode, setEditMode] = useState(false)
+
+    const handleSavePhoto = (e) => {
+        if(e.target.files.length) {
+            savePhoto(e.target.files[0])
+        }
+    }
+    const handleEditMode = () => {
+        setEditMode(true)
     }
 
-    const contacts = Object.entries(profileInfo.contacts).map(contact => {
-            return (
-            <a href={contact[1]}>{contact[0]}</a>
-            )
-        })
-    
+    const onSubmit = (data) => {
+        debugger
+        updateProfileInfo(data)
+        // getUserProfile(id)
+        setEditMode(false)
+    }
+
+    if (!profileInfo) {
+        return <Preloader/>
+    }
   return (
     <div >
         {isFetching ? <Preloader/> :
             <div className={style.wrap}>
-                <img className={style.profilePhoto} src={profileInfo.photos.large != null ? profileInfo.photos.large : defaultPhoto} alt="profile" />
+                <div>
+                    <img className={style.profilePhoto} src={profileInfo.photos.large ? profileInfo.photos.large : defaultPhoto} alt="profile" />
+                    {isOwner? <input type="file" onChange={handleSavePhoto} /> : null}
+                    {editMode 
+                        ? <ProfileReduxForm initialValues={profileInfo} onSubmit={onSubmit} /> 
+                        : <ProfileData profileInfo={profileInfo} isOwner={isOwner} handleEditMode={handleEditMode} />
+                    }
+                </div>
                 <div className={style.profileInfo}>
                     <h2 className={style.profileName}>{profileInfo.fullName}</h2>
-                    <ProfileStatus status={status} updateUserStatus={updateUserStatus} key={id}/>
-                    <div className={style.contacts}>
-                        {contacts}
-                    </div>
+                    <ProfileStatus isOwner={isOwner} status={status} updateUserStatus={updateUserStatus} key={id}/>
                 </div>
             </div>
         }
-    </div>
-   
+    </div>   
   )
 }

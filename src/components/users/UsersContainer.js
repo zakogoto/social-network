@@ -28,7 +28,6 @@ const  UsersContainer = (props) => {
         requestUsers(currentPage, pageSize)
     }
 
-
     return (
         <Users
             users={users}

@@ -10,7 +10,7 @@ export default function User({followingInProgress, onUnfollow, onFollow, user}) 
             <div className={s.userPreview}>
                 {/* <NavLink to={`/profile/${user.id}`}> */}
                 <NavLink to={`/profile/${user.id}`} >
-                    <img src={user.imgURL ? user.imgURL : userPhoto} alt={user.name} />
+                    <img src={user.photos.small ? user.photos.small : userPhoto} alt={user.name} />
                 </NavLink>
                 {user.followed ? 
                     <button 

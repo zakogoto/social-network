@@ -3,8 +3,7 @@ import { NavLink } from 'react-router-dom'
 import s from './Header.module.css'
 import defaultPhoto from "../../assets/image/userPhoto.png"
 
-export default function Header({isAuth, login, logout}) {
-  // debugger
+export default function Header({isAuth, login, logout, profilePhoto}) {
   return (
     <header className={s.header}>
         <NavLink to="/">
@@ -13,7 +12,13 @@ export default function Header({isAuth, login, logout}) {
         {isAuth 
           ? <div className={s.loginBlock} >
               <span className={s.infoBlock} >
-                <img src={defaultPhoto} alt="mini avatar" />
+                { !profilePhoto 
+                ? 
+                  <img src={defaultPhoto} alt="mini avatar" />
+                :
+                  <img src={profilePhoto.small} alt='ownerAvatar' />
+              }
+                
                 <span className={s.login}>{login}</span>
               </span>
             <button className={s.logoutBtn} onClick={logout}>Log out</button>
