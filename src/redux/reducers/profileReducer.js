@@ -39,6 +39,10 @@ export default function profileReducer(state = initialState, action) {
       return {
         ...state, postsData: state.postsData.filter(p => p.id !== action.postId)
       }
+    case SAVE_PHOTO_SUCCESS:
+      return {
+        ...state, profileInfo: {...state.profileInfo, photos: action.photos}
+      }
     default:
       return state
   }
@@ -47,10 +51,11 @@ export default function profileReducer(state = initialState, action) {
 const ADD_NEW_POST = 'ADD_NEW_POST'
 const GET_POSTS = 'GET_POSTS'
 const GET_PROFILE_INFO = 'GET_PROFILE_INFO'
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 const GET_STATUS = 'GET_STATUS'
 const RESET_PROFILE_INFO = 'RESET_PROFILE_INFO'
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 const DELETE_POST = 'DELETE_POST'
+const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS'
 
 export const addNewPost = (newPost) => {
     return {
@@ -85,12 +90,17 @@ const getProfileInfo = (profileInfo) => {
     profileInfo
   }
 }
+
 const toggleIsFetching = (isFetching) => {
   return {type: TOGGLE_IS_FETCHING, isFetching}
 }
 
 const resetProfileInfo = () => {
   return {type: RESET_PROFILE_INFO}
+}
+
+const savePhotoSuccess = (photos) => {
+  return {type: SAVE_PHOTO_SUCCESS, photos}
 }
 
 export const getUserProfile = (userId) => {
@@ -129,4 +139,21 @@ export const updateUserStatus = (status) => (dispatch) => {
 
 export const resetUserProfile = () => (dispatch) => {
   dispatch(resetProfileInfo())
+}
+
+export const savePhoto = (photos) => (dispatch) => {
+  profileAPI.savePhoto(photos).then(response => {
+    if (response.data.resultCode === 0) {
+      dispatch(savePhotoSuccess(response.data.data.photos))
+    }
+  })
+}
+
+export const updateProfileInfo = (formData) => async (dispatch) => {
+  debugger
+  let response = await profileAPI.updateProfile(formData);
+  if (response.data.resultCode === 0) {
+    console.log(response)
+  }
+
 }

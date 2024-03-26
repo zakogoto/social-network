@@ -33,7 +33,6 @@ const LoginForm = ({handleSubmit, error}) => {
 
 const LoginReduxForm = reduxForm({form: 'login'}) (LoginForm)
 
-
 const Login = ({login, isAuth}) => {
   
   const onSubmit = (formData) => {

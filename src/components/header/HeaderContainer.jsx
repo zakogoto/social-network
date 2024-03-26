@@ -1,23 +1,24 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Header from './Header'
 import { connect } from 'react-redux'
 import { logout } from '../../redux/reducers/authReducer'
+import { getAuthUserId, getAuthUserPhoto } from '../../redux/selectors/authSelector'
 
-class HeaderContainer extends Component {
+const HeaderContainer = (props) => {
+ 
+  return (
+    <Header {...props} logout={props.logout} profilePhoto={props.profilePhoto} />
+  )
 
-  render() {
-    return (
-      <Header {...this.props} logout={this.props.logout}/>
-    )
-  }
 }
 
 const MapStateToProps = (state) => {
   return {
     login: state.auth.login,
     email: state.auth.email,
-    id: state.auth.id,
-    isAuth: state.auth.isAuth
+    id: getAuthUserId(state),
+    isAuth: state.auth.isAuth,
+    profilePhoto: getAuthUserPhoto(state)
   }
 }
 

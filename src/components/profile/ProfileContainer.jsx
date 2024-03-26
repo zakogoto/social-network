@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import Profile from "./Profile"
-import { getPosts, getUserProfile, getUserStatus, updateUserStatus, resetUserProfile } from '../../redux/reducers/profileReducer'
+import { getPosts, getUserProfile, getUserStatus, updateUserStatus, resetUserProfile, savePhoto, updateProfileInfo } from '../../redux/reducers/profileReducer'
 import withRouter from '../../hooks/withRouter'
 import { withAuthForComponentWrapper } from '../../hoc/authRedirect'
 import { compose } from 'redux'
 import { getIsFetching, getNewPostData, getProfileId, getProfileStatus, getUserPosts, getUserProfileInfo } from '../../redux/selectors/profileSelector'
 import { getAuthUserId } from '../../redux/selectors/authSelector'
 
-
 const ProfileContainer = (props) => {
 
   const {router, authId, profileInfo, updateUserStatus, 
-    status, getUserStatus, getUserProfile} = props
+    status, getUserStatus, getUserProfile, savePhoto, updateProfileInfo} = props
 
   const getProfile = () => {
     let userId = router.params.id
@@ -28,7 +27,9 @@ const ProfileContainer = (props) => {
   }, [router.params.id])
 
   return (
-    <Profile {...props} profileInfo={profileInfo} updateUserStatus={updateUserStatus} status={status}/>
+    <Profile {...props} isOwner={!router.params.id} profileInfo={profileInfo} 
+      updateProfileInfo={updateProfileInfo} updateUserStatus={updateUserStatus} 
+      status={status} savePhoto={savePhoto} getUserProfile={getUserProfile} />
   )
 }
 
@@ -50,9 +51,9 @@ export default compose (
   getUserProfile,
   getUserStatus,
   updateUserStatus,
-  resetUserProfile}), 
+  resetUserProfile, 
+  savePhoto,
+  updateProfileInfo}), 
   withRouter,
   withAuthForComponentWrapper
 ) (ProfileContainer)
-
-

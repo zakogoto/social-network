@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import React, { useEffect, useState } from 'react'
 
-export default function ProfileStatus({status, updateUserStatus}) {
+export default function ProfileStatus({status, updateUserStatus, isOwner}) {
     let [editMode, setEditMode] = useState(false)
     let [currentStatus, setCurrentStatus] = useState(status)
 
@@ -10,7 +10,9 @@ export default function ProfileStatus({status, updateUserStatus}) {
     }, [status])
 
     const activateEditMode = () => {
-        setEditMode(true)
+        if (isOwner) {
+            setEditMode(true)
+        }
     }
     const deactivateEditMode = () => {
         setEditMode(false)
