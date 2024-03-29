@@ -22,7 +22,7 @@ export default function ProfileData(props) {
         { profileInfo.lookingForAJobDescription
             ?
                 <div>
-                    <b>About my professional skills: </b>
+                    <b> skills: </b>
                     {profileInfo.lookingForAJobDescription}
                 </div>
             : null

@@ -5,7 +5,5 @@ export const updateObject = (items, itemId, objectPropName, newObjectProp) => {
             return {...item, ...newObjectProp}
         }
         return item
-    })
-
-    
+    })    
 }

@@ -11,7 +11,7 @@ import { ProfileReduxForm } from './ProfileFormData'
 
 export default function ProfileInfo(props) {
 
-    const  {profileInfo, status, updateUserStatus, id, isFetching, isOwner, savePhoto, updateProfileInfo, getUserProfile} = props;
+    const  {profileInfo, status, updateUserStatus, id, isFetching, isOwner, savePhoto, updateProfileInfo} = props;
 
     let [editMode, setEditMode] = useState(false)
 
@@ -25,9 +25,7 @@ export default function ProfileInfo(props) {
     }
 
     const onSubmit = (data) => {
-        debugger
         updateProfileInfo(data)
-        // getUserProfile(id)
         setEditMode(false)
     }
 
@@ -42,7 +40,7 @@ export default function ProfileInfo(props) {
                     <img className={style.profilePhoto} src={profileInfo.photos.large ? profileInfo.photos.large : defaultPhoto} alt="profile" />
                     {isOwner? <input type="file" onChange={handleSavePhoto} /> : null}
                     {editMode 
-                        ? <ProfileReduxForm initialValues={profileInfo} onSubmit={onSubmit} /> 
+                        ? <ProfileReduxForm initialValues={profileInfo} onSubmit={onSubmit} profileInfo={profileInfo} /> 
                         : <ProfileData profileInfo={profileInfo} isOwner={isOwner} handleEditMode={handleEditMode} />
                     }
                 </div>

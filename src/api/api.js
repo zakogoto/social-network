@@ -63,9 +63,9 @@ export  const authAPI = {
             console.log(e.message)
         }
     },
-    async login (email, password, rememberMe) {
+    async login (email, password, rememberMe, captcha) {
         try {
-            const response = await instance.post('auth/login', {email, password, rememberMe});
+            const response = await instance.post('auth/login', {email, password, rememberMe, captcha});
             return response;
         }
         catch (e) {
@@ -80,5 +80,11 @@ export  const authAPI = {
         catch (e) {
             console.log(e)
         }
+    }
+}
+
+export const securityAPI = {
+    async getCaptcha () {
+        return await instance.get('security/get-captcha-url')
     }
 }

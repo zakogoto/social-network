@@ -2,12 +2,9 @@ import React from 'react'
 import { Input, Textarea, createField } from '../../../ui/validation/FormsControl'
 import { reduxForm } from 'redux-form'
 import { required } from '../../../ui/validation/validators'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { getUserProfileInfo } from '../../../redux/selectors/profileSelector'
 // import style from './ProfileInfo.module.css'
 
-const ProfileForm = ({handleSubmit, error, initialValues}) => {
+const ProfileForm = ({handleSubmit, error, profileInfo}) => {
     return (
         <form onSubmit={handleSubmit}>
             <h3>Full name</h3>
@@ -15,11 +12,13 @@ const ProfileForm = ({handleSubmit, error, initialValues}) => {
             <h3>About me</h3>
             {createField(Textarea, 'text', 'About me', 'aboutMe', [required])}
             {createField(Input, 'checkbox', '', 'lookingForAJob', [], 'Looking for a job?' )}
-            <h3>Searching job description</h3>
+            <h3>My skills</h3>
             {createField(Textarea, 'text', "I'm looking for a...", 'lookingForAJobDescription', [])}
             <h3>Contacts</h3>
-            {Object.entries(initialValues.contacts).map(contact => {
-                return createField(Input, 'url', contact[0], `contacts.${contact[0]}`, [])
+            {Object.keys(profileInfo.contacts).map(key => {
+                return (
+                    <b>{key}: {createField(Input, 'url', key, `contacts.${key}`, [])}</b>
+                )
             })}
             <button>Save</button>
             {error? <div>{error.message}</div>: null}
@@ -27,13 +26,5 @@ const ProfileForm = ({handleSubmit, error, initialValues}) => {
     )
 }
 
-const MapStateToProps = (state) => {
-    return {
-      initialValues: getUserProfileInfo(state)
-    }
-  }
-
-export const ProfileReduxForm = compose(
-    connect(MapStateToProps),
-    reduxForm({form: 'edit-profile'})
-    ) (ProfileForm)
+export const ProfileReduxForm = 
+    reduxForm({form: 'edit-profile'}) (ProfileForm)

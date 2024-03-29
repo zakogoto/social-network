@@ -12,7 +12,6 @@ const ProfileContainer = (props) => {
 
   const {router, authId, profileInfo, updateUserStatus, 
     status, getUserStatus, getUserProfile, savePhoto, updateProfileInfo} = props
-
   const getProfile = () => {
     let userId = router.params.id
     if (!userId) {
@@ -24,6 +23,7 @@ const ProfileContainer = (props) => {
   
   useEffect(() => {
     getProfile()
+    // eslint-disable-next-line
   }, [router.params.id])
 
   return (
