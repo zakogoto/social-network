@@ -1,3 +1,7 @@
+.formControl {
+    width: 100%;
+}
+
 .formControl input, .formControl textarea {
     font-weight: 700;
 }
@@ -7,4 +11,12 @@
 
 .errorMessage {
     color: red !important; 
+}
+
+.inputWrap {
+    display: flex;
+}
+
+.loginFormWrap {
+    width: 200px;
 }
