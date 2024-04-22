@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { FC } from 'react'
 import style from './ProfileInfo.module.css'
+import { ProfileType } from '../../../redux/types';
 
-export default function ProfileData(props) {
+type PropsType = {
+    profileInfo: ProfileType,
+    isOwner: boolean
+    handleEditMode: () => void
+}
+
+const ProfileData: FC<PropsType> = (props) => {
 
     const  {profileInfo, isOwner, handleEditMode } = props;
 
@@ -31,3 +38,5 @@ export default function ProfileData(props) {
     </div>
   )
 }
+
+export default ProfileData

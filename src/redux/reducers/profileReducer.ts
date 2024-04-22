@@ -1,177 +1,190 @@
 // import { stopSubmit } from "redux-form"
 import { stopSubmit } from "redux-form";
-import { profileAPI } from "../../api/api"
-
-type ProfileInfoType = {
-  id: number | null,
-  fullName: string | null,
-  photos?: {large: string | null, small: string | null},
-  lookingForAJob: boolean,
-  aboutMe: string | null,
-  lookingForAJobDescription: string | null,
-  contacts: {
-    github: string | null
-    vk: string | null
-    facebook: string | null
-    instagram: string | null
-    twitter: string | null
-    website: string | null
-    youtube: string | null
-    mainLink: string | null
-  }
-}
-
-type PostType = {
-  id: number,
-  message: string,
-  imgSrc: string
-}
-
-type PostsDataType =  Array<PostType>
+import { ResultCodes, profileAPI } from "../../api/api"
+import { PhotosType, PostType, ProfileType } from "../types";
+import { ThunkAction } from "redux-thunk";
+import { AppStateType } from "../redux-store";
+import { AuthActionsTypes, setAuthUserPhoto } from "./authReducer";
 
 const initialState = {
-    postsData: [] as PostsDataType,
-    status: null as string | null,
+    posts: [] as Array<PostType>,
+    newPost: '',
+    status: '',
     id: null as number | null,
-    profileInfo: null as ProfileInfoType | null,
+    profile: null  as ProfileType | null,
     isFetching: false,
 }
 
-export type initialStateType = typeof initialState;
-
-type ActionType = {
-  type: typeof ADD_NEW_POST 
-  | typeof GET_POSTS 
-  | typeof GET_PROFILE_INFO 
-  | typeof GET_STATUS 
-  | typeof RESET_PROFILE_INFO 
-  | typeof TOGGLE_IS_FETCHING 
-  | typeof DELETE_POST 
-  | typeof SAVE_PHOTO_SUCCESS,
-  payload?: any,
-}
+export type InitialStateType = typeof initialState;
 
 const ADD_NEW_POST = 'ADD_NEW_POST'
 const GET_POSTS = 'GET_POSTS'
-const GET_PROFILE_INFO = 'GET_PROFILE_INFO'
+const GET_PROFILE = 'GET_PROFILE'
 const GET_STATUS = 'GET_STATUS'
-const RESET_PROFILE_INFO = 'RESET_PROFILE_INFO'
+const RESET_PROFILE = 'RESET_PROFILE'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 const DELETE_POST = 'DELETE_POST'
 const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS'
 
-export default function profileReducer(state: initialStateType = initialState, action: ActionType) {
+export type AddNewPostActionType = {
+  type: typeof ADD_NEW_POST,
+  message: string
+}
+
+export type GetPostsActionType = {
+  type: typeof GET_POSTS ,
+  posts: Array<PostType>
+}
+
+export type GetProfileActionType = {
+  type: typeof GET_PROFILE,
+  profile: ProfileType
+}
+
+export type ResetProfileActionType = {
+  type: typeof RESET_PROFILE,
+}
+
+export type ToggleIsFetchingActionType = {
+  type: typeof TOGGLE_IS_FETCHING,
+  isFetching: boolean
+}
+
+export type DeletePostActionType = {
+  type: typeof DELETE_POST,
+  id: number
+}
+
+export type GetStatusActionType = {
+  type: typeof GET_STATUS,
+  status: string
+}
+
+export type SavePhotoSuccessActionType = {
+  type: typeof SAVE_PHOTO_SUCCESS,
+  photos: PhotosType
+}
+
+type ProfileActionCreatorType = 
+          AddNewPostActionType 
+        | GetPostsActionType 
+        | GetProfileActionType 
+        | GetStatusActionType 
+        | DeletePostActionType 
+        | ResetProfileActionType 
+        | ToggleIsFetchingActionType 
+        | SavePhotoSuccessActionType
+
+type ThunkActionType = ThunkAction<Promise<void> | void, AppStateType, unknown, ProfileActionCreatorType | AuthActionsTypes>
+
+const profileReducer = (state: InitialStateType = initialState, action: ProfileActionCreatorType): InitialStateType => {
   switch (action.type) {
     case ADD_NEW_POST:{
       return {
         ...state,
-        postsData: [
-          {id: state.postsData.length, name: 'you', message: action.payload, imgSrc: 'https://animego.org/media/cache/thumbs_60x60/upload/avatar/652797ce3668d760496455.jpeg'},
-          ...state.postsData
+        posts: [
+          {id: state.posts.length, name: state.profile?.fullName, message: action.message, imgSrc: state.profile?.photos.small} as PostType,
+          ...state.posts
         ],
       }
     }case GET_POSTS:
-      return {...state, postsData: action.payload}
+      return {...state, posts: action.posts}
 
-    case GET_PROFILE_INFO:
-      debugger
-      return {...state, profileInfo: action.payload}
+    case GET_PROFILE:
+      return {...state, profile: action.profile}
 
     case GET_STATUS:
-      return {...state, status: action.payload}
+      return {...state, status: action.status}
 
     case TOGGLE_IS_FETCHING:
           return {
-              ...state, isFetching: action.payload
+              ...state, isFetching: action.isFetching
           }
-    case RESET_PROFILE_INFO:
+    case RESET_PROFILE:
       return {
-        ...state, postsData: [], id: null, status: null, profileInfo: null
+        ...state, posts: [], id: null, status: '', profile: null
       }
     case DELETE_POST:
       return {
-        ...state, postsData: state.postsData.filter( p => p.id !== action.payload)
+        ...state, posts: state.posts.filter( p => p.id !== action.id)
       }
     case SAVE_PHOTO_SUCCESS:
       return {
-        ...state, profileInfo: {...state.profileInfo, photos: action.payload}
+        ...state, profile: {...state.profile, photos: action.photos} as ProfileType
       }
     default:
       return state
   }
 } 
 
-export const addNewPost = (payload: PostsDataType) => {
+export default profileReducer
+
+export const addNewPost = (message: string): AddNewPostActionType => {
     return {
       type: ADD_NEW_POST,
-      payload
+      message
     }
 }
 
-export const deletePost = (payload: number) => {
+export const deletePost = (id: number): DeletePostActionType => {
   return {
     type: DELETE_POST,
-    payload
+    id
   }
 }
   
-export const getPosts = (payload: PostsDataType) => {
+export const getPosts = (posts: Array<PostType>): GetPostsActionType => {
   return {
     type: GET_POSTS,
-    payload
+    posts
   }
 }
-const getStatus = (payload: string) => {
+const getStatus = (status: string): GetStatusActionType => {
   return {
     type: GET_STATUS,
-    payload
+    status
   }
 }
 
-const getProfileInfo = (payload: ProfileInfoType) => {
+const getProfileInfo = (profile: ProfileType): GetProfileActionType => {
   return {
-    type: GET_PROFILE_INFO,
-    payload
+    type: GET_PROFILE,
+    profile
   }
 }
 
-const toggleIsFetching = (payload: boolean) => {
-  return {type: TOGGLE_IS_FETCHING, payload}
+const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionType => {
+  return {type: TOGGLE_IS_FETCHING, isFetching}
 }
 
-const resetProfileInfo = () => {
-  return {type: RESET_PROFILE_INFO}
+const resetProfileInfo = (): ResetProfileActionType => {
+  return {type: RESET_PROFILE}
 }
 
-const savePhotoSuccess = (payload: {}) => {
-  return {type: SAVE_PHOTO_SUCCESS, payload}
+const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => {
+  return {type: SAVE_PHOTO_SUCCESS, photos}
 }
 
-export const getUserProfile = (userId: number) => {
-  return (dispatch: any) => {
-    dispatch(toggleIsFetching(true))
-    profileAPI.getProfile(userId)
-    .then(response => response.data) 
-    .then(data => {
-      debugger
-      dispatch(getProfileInfo(data))
-    })
-    dispatch(toggleIsFetching(false))
-  }
+export const getUserProfile = (userId: number | null): ThunkActionType => (dispatch) => {
+  dispatch(toggleIsFetching(true))
+  profileAPI.getProfile(userId)
+  .then(data => {
+    dispatch(getProfileInfo(data))
+  })
+  dispatch(toggleIsFetching(false))
 }
 
-export const getUserStatus = (userId: number) => (dispatch: any) => {
+export const getUserStatus = (userId: number): ThunkActionType => (dispatch) => {
   
   profileAPI.getProfileStatus(userId)
-  .then(response => response.data)
-  .then(data => {
-    dispatch(getStatus(data))
+  .then(status => {
+    dispatch(getStatus(status))
   }).catch(e => {
     console.log(e)
   })
 }
 
-export const updateUserStatus = (status: string) => (dispatch: any) => {
+export const updateUserStatus = (status: string): ThunkActionType => (dispatch) => {
   profileAPI.updateProfileStatus(status).then(response => {
     if (response.data.resultCode === 0 ) {
       dispatch(getStatus(status))
@@ -182,19 +195,20 @@ export const updateUserStatus = (status: string) => (dispatch: any) => {
   )
 }
 
-export const resetUserProfile = () => (dispatch: any) => {
+export const resetUserProfile = ():ThunkActionType => (dispatch) => {
   dispatch(resetProfileInfo())
 }
 
-export const savePhoto = (photos: {}) => (dispatch: any) => {
+export const savePhoto = (photos: PhotosType): ThunkActionType => (dispatch) => {
   profileAPI.savePhoto(photos).then(response => {
-    if (response.data.resultCode === 0) {
-      dispatch(savePhotoSuccess(response.data.data.photos))
+    if (response.resultCode === ResultCodes.Success) {
+      dispatch(savePhotoSuccess(response.data.photos))
+      dispatch(setAuthUserPhoto(response.data.photos))
     }
   })
 }
 
-export const updateProfileInfo = (formData: ProfileInfoType) => async (dispatch: any, getState: any) => {
+export const updateProfileInfo = (formData: ProfileType):ThunkActionType => async (dispatch, getState) => {
   const userId = getState().auth.id;
   const response = await profileAPI.updateProfile(formData);
   if (response.data.resultCode === 0) {

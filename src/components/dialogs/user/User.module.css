@@ -1,7 +1,8 @@
 .name {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 30px;
     background: #5c5c5c;
     color: #eaeaea;
     padding: 10px;
@@ -11,6 +12,11 @@
 .active {
     background: #3774cb;
     color: #eaeaea
+}
+
+.photo {
+    height: 50px;
+    border-radius: 100%;
 }
 /* 
 .name:hover {

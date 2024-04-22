@@ -1,3 +1,7 @@
+.formControl {
+    width: 100%;
+}
+
 .formControl input, .formControl textarea {
     font-weight: 700;
 }
@@ -11,4 +15,8 @@
 
 .inputWrap {
     display: flex;
+}
+
+.loginFormWrap {
+    width: 200px;
 }

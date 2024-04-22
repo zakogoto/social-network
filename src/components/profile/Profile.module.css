@@ -1,2 +1,318 @@
-/* .item { 
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@100;300;400;500;700&display=swap");
+
+h1, h2, h3, h4, h5, p, a {
+  font-family: "Roboto Condensed", sans-serif !important;
+  color: #085272 !important;
+}
+
+footer{
+    background: #000 !important;
+}
+
+footer a, footer h3, footer p, footer div {
+    color: #fff !important;
+}
+
+
+/* настройки меню */
+
+header .header_top_nav > .container > .row > div:first-of-type ul li {
+    padding: 7px 25px !important;
+    margin-right: 0;
+}
+
+header .header_top_nav > .container > .row > div:first-of-type ul {
+    justify-content: center;
+}
+
+header .header_top_nav ul li a, header .header_top_nav ul.right_nav li a {
+    
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+header .header_top_nav > .container > .row > div:first-of-type ul li:hover a {
+    color: #009de0 !important;
+}
+
+header .header_top_nav > .container > .row > div:first-of-type ul li.active a {
+    color: #009de0 !important;
+}
+
+header .header_top_nav ul.right_nav li a:hover {
+    color: #009de0 !important;
+    text-decoration: none !important;
+}
+
+/* header .header_top_nav > .container > .row > div:first-of-type ul li:hover, 
+header .header_top_nav > .container > .row > div:first-of-type ul li.active {
+    background: #009de0 !important;
 } */
+
+/* carousel */
+
+#carousel-example-generic .carousel-caption {
+    font-family: "Roboto Condensed", sans-serif;
+    color: #fff;
+    font-weight: 600;
+    background: none;
+    left: unset;
+    right: 32%;
+    top: 20%;
+}
+
+/* настройки меню с логотипом */
+header .header_brand .media-left {
+    display: none;
+}
+
+header .header_brand .media-body h2 {
+    text-align: center;
+}
+
+header .header_brand h2 a, .header_mobile .mobile_top_logo .media-body h3 {
+  font-family: "Bebas Neue", sans-serif !important;
+  letter-spacing: 0px !important;
+  font-weight: 400 !important;
+  font-size: 35px !important;
+}
+
+header .header_middle_nav .row .header_cart .header_cart_block {
+    text-align: right;
+    justify-content: end;
+    width: 240px;
+}
+
+.media-body {
+    width: 100px;
+}
+
+.side_panel .adventage .item_content span, .side_panel .adventage .item_title span, .gray_text {
+    font-family: "Roboto Condensed", sans-serif !important;
+    color: #085272 !important;
+}
+
+
+/* цвет меню каталога */
+.side_panel .table-menu ul > li > a {
+    font-size: 17px;
+}
+
+.side_panel .table-menu ul > li:hover > a, .side_panel .table-menu > ul > li.active a {
+  background: #ffffff;
+  color: #009de0 !important;
+  margin-left: 10px;
+}
+
+.sort_row .view ul > li img {
+    height: 17px;
+    filter: invert(1);
+}
+
+/* кнопки */
+
+.order_popup .buy_button a {
+    background:#009de0 !important;
+}
+
+.header_cart_block .cart_items {
+    background: #009de0;
+    color: #ffffff !important;
+}
+
+.catalog_inline_page .item .price_sect .item_btn a,
+.cart_page .item .price_sect .item_btn a {
+    padding-left: 0 !important;
+    padding: 13px !important;
+}
+
+.card_product_container .card_product .card_product_price a {
+    width: 150px;
+    text-align: center;
+    color: #fff;
+    border-radius: 50px;
+    padding: 13px 0 !important;
+}
+
+.button_buy, .button_buy_order {
+    background: #009de0 !important;
+    text-align: center !important;
+    color: #fff !important;
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    border-radius: 50px !important;
+    padding: 5px !important;
+}
+
+.catalog_inline_page .result_sum a, .cart_page .result_sum a {
+    background: #009de0;
+    text-transform: uppercase;
+    border-radius: 50px;
+}
+
+.block_capt .cart-goback-button, .order_form .cart-goback-button, .one_click_btn, .add_review form input[type="submit"] {
+    color: #009de0 !important;
+    border: 2px solid #009de0;
+    border-radius: 50px;
+}
+
+.block_capt .cart-goback-button:hover, .order_form .cart-goback-button:hover, .one_click_btn:hover, .add_review form input[type="submit"]:hover {
+    color: #ffffff !important;
+    background: #009de0;
+}
+
+.card_product_container .card_product .card_product_price a, .cart_btn {
+    background-color: #009de0;
+    color: #ffffff !important;
+}
+
+.order_caption .cart-goback-button {
+    color: #ffffff !important;
+}
+
+main .order_page .order_form form > input[type="submit"] {
+    background: #009de0;
+}
+
+.catalog_inline_page .quantity_count span, .cart_page .quantity_count span {
+    border-radius: 50px;
+}
+
+/* страница каталога и корзины */
+
+.sort_row > .container > .row {
+    background: none !important;
+    border-bottom: 1px solid #ebebeb !important;
+}
+
+.catalog_inline_page .item > .row > .item_title, .cart_page .item > .row > .item_cost .price_sect {
+    padding-top: 0;
+}
+
+.card_product_container .card_product .card_product_title, .card_product_container .card_product .card_product_title:active, .card_product_container .card_product .card_product_title:hover, .card_product_container .card_product .card_product_title:focus, .card_product_container .card_product .card_product_title:visited {
+    width: 100%;
+    text-align: center;
+}
+
+.card_product_container .card_product .card_product_price {
+    flex-direction: column;
+}
+
+.card_product_container .card_product .card_product_price span {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.card_product_container .card_product:hover {
+    -webkit-box-shadow: 0px 10px 4px 5px #dcdcdc;
+    box-shadow: 0 10 4px 5px #dcdcdc;
+}
+
+.catalog_inline_page .item, .cart_page .item {
+    padding: 1%;
+    margin-bottom: 20px;
+}
+
+.product_infocard .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+table.catalog_propertys .compare_button {
+    text-align: center;
+}
+
+.numpages {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.numpages ul {
+    text-align: center;
+}
+
+.catalog_page .more a {
+    background: #fff !important;
+    border-color: #009de0 !important;
+
+}
+
+.numpages ul li.active > a, .catalog_inline_page .more a:hover, .cart_page .more a:hover, .numpages ul li :hover, .numpages ul li .active {
+    background: #009de0 !important;
+    border-color: #009de0;
+    color: #fff !important;
+}
+.catalog_inline_page .more a, .cart_page .more a, .numpages ul li > a {
+    border-color: #009de0 !important;
+    color: #009de0 !important;
+    width: auto;
+    border-radius: 50px;
+    padding: 5px 15px;
+}
+
+/* Фильтры */
+.filters > ul > li .filters_dropdown button {
+    color: #009de0;
+    border: 2px solid #009de0;
+}
+
+.filters > ul > li .filters_dropdown button:hover {
+    color: #ffffff!important;
+    background: #009de0;
+}
+
+.filters > ul > li .filters_dropdown input[type="radio"]:checked + span::after {
+    background: #009de0;
+}
+
+/* поиск */
+
+main .search_page input[type="submit"] {
+    display: block;
+    width: 200px;
+    background: #009de0;
+    text-transform: uppercase;
+    font-size: 18px;
+    border-radius: 50px;
+}
+
+/* страница оформления заказа */
+main .order_page .order_caption {
+    background: #dadada;
+}
+
+/* Контакты */
+
+main .contact_page .contact_form form > input, main .contact_page .contact_form form textarea {
+    padding: 15px !important;
+}
+
+main .contact_page .contact_form form > input[type="submit"] {
+    background: #009de0 !important;
+    border-radius: 50px;
+    margin: 40px auto 0 auto;
+}
+
+/* адаптив */
+
+.header_mobile .mobile_menu_toggle span {
+    background: #009de0;
+}
+
+.header_mobile .mobile_top_logo .media-left {
+    display: none;
+}
+
+@media screen and (max-width: 991px) {
+    /* header .header_top_nav ul li a {
+        color: #ffffff !important;
+    } */
+    .header_top_nav .mobile_all_width {
+      background: #ffffff !important;
+      }
+}

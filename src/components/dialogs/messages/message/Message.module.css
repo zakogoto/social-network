@@ -1,7 +1,8 @@
 .wrap, .wrapRight {
     display: flex;
+    flex-direction: column;
     gap: 20px;
-    align-items: center;
+    align-items: flex-end;
     justify-content: flex-start;
     /* background: #fff; */
     /* padding: 15px; */
@@ -18,11 +19,27 @@
 }
 
 .message {
-    background: rgb(29, 194, 142);
-    padding: 15px;
+    background: rgb(143, 143, 143);
+    padding: 10px 15px;
     max-width: 60%;
     border-radius: 20px;
     white-space: pre-wrap;
+}
+
+.senderName {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.messageBody {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.messageTime {
+    padding-top: 10px;
+    font-size: 10px;
+    text-align: right;
 }
 
 p, h3 {

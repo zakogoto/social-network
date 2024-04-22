@@ -1,9 +1,30 @@
 .wrap {
-    width: 50%;
+    width: 100%;
     padding: 10px;
+    display: grid;
+    grid-template-areas: 
+    'users users users'
+    'users users users'
+    'users users users'
+    'paginator paginator paginator';
+}
+
+.paginator {
+    grid-area: paginator;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.users {
+    grid-area: users;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: repeat(5, 135px);
 }
 
 .user {
+    margin-bottom: 20px;
     display: flex;
     flex-direction: row;
 }
@@ -18,15 +39,47 @@
     height: 100px;
     border-radius: 100%;
 }
-.userInfo {
+.userInfoWrap {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    background: #b0b0b0;
+    padding: 0 20px;
+    height: 100%;
+    /* background: #b0b0b0; */
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.name {
+    text-align: center;
+    font-weight: 600;
+}
+
+.btns {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 .btn {
     background: #3774cb;
+    width: 50%;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.sendBtn {
+    background: #fff;
+    text-align: center;
+    color: #000;
 }
 
 .btn :disabled {

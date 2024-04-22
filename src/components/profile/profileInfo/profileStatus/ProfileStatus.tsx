@@ -1,9 +1,15 @@
 // eslint-disable-next-line
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 
-export default function ProfileStatus({status, updateUserStatus, isOwner}) {
+type PropsType = {
+    status: string,
+    isOwner: boolean
+    updateUserStatus: (currentStatus: string) => void
+}
+
+const ProfileStatus: FC<PropsType> = ({status, updateUserStatus, isOwner}) => {
     let [editMode, setEditMode] = useState(false)
-    let [currentStatus, setCurrentStatus] = useState(status)
+    let [currentStatus, setCurrentStatus] = useState<string>(status)
 
     useEffect(()=> {
         setCurrentStatus(status)
@@ -19,7 +25,7 @@ export default function ProfileStatus({status, updateUserStatus, isOwner}) {
         updateUserStatus(currentStatus)
     }
 
-    const onStatusChange = (e) => {
+    const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCurrentStatus(e.currentTarget.value)
     }
     return (
@@ -33,3 +39,4 @@ export default function ProfileStatus({status, updateUserStatus, isOwner}) {
     )
 }
 
+export default ProfileStatus
